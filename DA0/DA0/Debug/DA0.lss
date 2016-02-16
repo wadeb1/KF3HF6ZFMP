@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.57  D:\Documents\Atmel Studio\7.0\DesignAssignments\DA0\DA0\main.asm Mon Feb 15 20:52:43 2016
+AVRASM ver. 2.1.57  D:\Documents\Atmel Studio\7.0\DesignAssignments\DA0\DA0\main.asm Mon Feb 15 21:07:53 2016
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.90\avrasm\inc\m328pdef.inc'
                  
@@ -990,11 +990,11 @@ AVRASM ver. 2.1.57  D:\Documents\Atmel Studio\7.0\DesignAssignments\DA0\DA0\main
                  ; Author : Brandon
                  ;
                  
-000000 e10f      		LDI		R16, 31		; load number 1 into R16
-000001 e11f      		LDI		R17, 31		; load number 2 into R17
-000002 e12f      		LDI		R18, 31		; load number 3 into R18
-000003 e13f      		LDI		R19, 31		; load number 4 into R19
-000004 e14f      		LDI		R20, 31		; load number 5	into R20
+000000 e30b      		LDI		R16, 59		; load number 1 into R16
+000001 e31b      		LDI		R17, 59		; load number 2 into R17
+000002 e32b      		LDI		R18, 59		; load number 3 into R18
+000003 e33b      		LDI		R19, 59		; load number 4 into R19
+000004 e34b      		LDI		R20, 59		; load number 5	into R20
                  
 000005 0f01      		ADD		R16, R17	; R16 = R16 + R17, no chance of unsgined overflow
 000006 0f02      		ADD		R16, R18	; R16 = R16 + R18, no chance of unsgined overflow

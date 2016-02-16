@@ -5,11 +5,11 @@
 ; Author : Brandon
 ;
 
-		LDI		R16, 31		; load number 1 into R16
-		LDI		R17, 31		; load number 2 into R17
-		LDI		R18, 31		; load number 3 into R18
-		LDI		R19, 31		; load number 4 into R19
-		LDI		R20, 31		; load number 5	into R20
+		LDI		R16, 59		; load number 1 into R16
+		LDI		R17, 59		; load number 2 into R17
+		LDI		R18, 59		; load number 3 into R18
+		LDI		R19, 59		; load number 4 into R19
+		LDI		R20, 59		; load number 5	into R20
 
 		ADD		R16, R17	; R16 = R16 + R17, no chance of unsgined overflow
 		ADD		R16, R18	; R16 = R16 + R18, no chance of unsgined overflow
