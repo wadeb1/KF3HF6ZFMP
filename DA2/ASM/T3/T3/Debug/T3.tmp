@@ -1,0 +1,31 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.1.57</VERSION>
+ <DEVICE>"ATmega328P"</DEVICE>
+ <WORKING_DIR>D:\Documents\Atmel Studio\7.0\DesignAssignments\DA2\ASM\T3\T3\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.90\avrasm\inc</DIR>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.90\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>D:\Documents\Atmel Studio\7.0\DesignAssignments\DA2\ASM\T3\T3\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.90\avrasm\inc\m328pdef.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>D:\Documents\Atmel Studio\7.0\DesignAssignments\DA2\ASM\T3\T3\Debug\T3.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>T3.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>T3.map</FILE>
+  <FILE>T3.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <BEGIN><FILE>D:\Documents\Atmel Studio\7.0\DesignAssignments\DA2\ASM\T3\T3\main.asm</FILE><LINE>22</LINE></BEGIN>
+  <DELAY><FILE>D:\Documents\Atmel Studio\7.0\DesignAssignments\DA2\ASM\T3\T3\main.asm</FILE><LINE>55</LINE></DELAY>
+  <SKIP_INC><FILE>D:\Documents\Atmel Studio\7.0\DesignAssignments\DA2\ASM\T3\T3\main.asm</FILE><LINE>51</LINE></SKIP_INC>
+  <AGAIN><FILE>D:\Documents\Atmel Studio\7.0\DesignAssignments\DA2\ASM\T3\T3\main.asm</FILE><LINE>68</LINE></AGAIN>
+ </LABELS>
+</ASSEMBLER_INFO>
