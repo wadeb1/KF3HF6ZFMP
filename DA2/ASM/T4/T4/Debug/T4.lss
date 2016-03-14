@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.57  D:\Documents\Atmel Studio\7.0\DesignAssignments\DA2\ASM\T4\T4\main.asm Sat Mar 12 22:36:14 2016
+AVRASM ver. 2.1.57  D:\Documents\Atmel Studio\7.0\DesignAssignments\DA2\ASM\T4\T4\main.asm Sun Mar 13 17:35:19 2016
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.90\avrasm\inc\m328pdef.inc'
                  
@@ -992,11 +992,11 @@ AVRASM ver. 2.1.57  D:\Documents\Atmel Studio\7.0\DesignAssignments\DA2\ASM\T4\T
                  
                  .org 0x00
                  	
-000000 c020      	RJMP INIT
+000000 c020      	RJMP INIT				
                  
                  .org 0x20
                  
-000020 c01e      	RJMP TCNT1_overflow
+000020 c01e      	RJMP TCNT1_overflow		; interrupt
                  	
                  INIT:
                  
@@ -1028,12 +1028,12 @@ AVRASM ver. 2.1.57  D:\Documents\Atmel Studio\7.0\DesignAssignments\DA2\ASM\T4\T
 000038 9370 0081 	STS		TCCR1B, R23     ; start timer with 1024 ps
                  	
 00003a e071      	LDI		R23, 0x01
-00003b 9370 006f 	STS		TIMSK1, R23
-00003d 9478      	SEI
+00003b 9370 006f 	STS		TIMSK1, R23		; enable timer interrupt
+00003d 9478      	SEI						; enable interrupts
                  
                  AGAIN:
                  
-00003e cfff      	RJMP	AGAIN
+00003e cfff      	RJMP	AGAIN			; loop forever
                  	
                  TCNT1_overflow:
                  
