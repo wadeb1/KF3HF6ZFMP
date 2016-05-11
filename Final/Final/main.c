@@ -1,20 +1,24 @@
-/* Brandon Wade*/
+/*
+ * _301.c
+ *
+ * Created: 5/9/2015 7:12:58 PM
+ */ 
+
 #define F_CPU 8000000UL
 #include <avr/io.h>
 #include <util/delay.h>
 #include <stdio.h>
 #include <util/twi.h>
-#include "i2cmaster.h"
+#include "I2Cmaster.h"
 #include <math.h>
 #include <string.h>
-#include <stdlib.h>
 
 
 #define MPU60501  0xD0     // (0x68 << 1) I2C slave address
 
 unsigned char ret;            // return value
 
-char outs[50];
+char outs[75];
 
 //********************************//
 
@@ -25,8 +29,8 @@ void usart_init (void)
 	//synchronous usart, transmit 8-bit data
 	UCSR0C = ((1<<UCSZ01)|(1<<UCSZ00)|(1<<UMSEL00));
 	//9600 Baud Rate from 8MHz clock
-	UBRR0H = 0;
-	UBRR0L = 33;
+	UBRR0H = 0x00;
+	UBRR0L = 33; // baud of 115200
 	UCSR0B = (1<<TXEN0);	//enable transmitter
 }
 void USART_tx_string (char *data)
@@ -93,8 +97,8 @@ void Init_MPU6050(uint8_t accel)
 		MPU6050_writereg(accel, 0x37, 0x10); // reg 55 interrupt configuration set value to 0001 0000 for logic level high and read clear
 		MPU6050_writereg(accel, 0x38, 0x01); // reg 56 interrupt enable set value to 0000 0001 data ready creates interrupt
 		MPU6050_writereg(accel, 0x6A, 0x40); // reg 106 user control set value to 0100 0000 FIFO enable
-		snprintf(outs,sizeof(outs),"done start \n\r");
-		USART_tx_string(outs);
+		//snprintf(outs,sizeof(outs),"done start \n\r");
+		//USART_tx_string(outs);
 	}
 	i2c_stop();
 }
@@ -107,7 +111,8 @@ int main(){
 	int16_t zi1 = 0;
 	float xa1, ya1, za1;
 	
-	int x0,x1,x2,y0,y1,y2,z0,z1,z2;
+	int x0, x1, x2, y0, y1, y2, z0, z1, z2;
+
 
 	DDRD = 0xF0;
 	DDRC = 0x00;
@@ -119,9 +124,9 @@ int main(){
 	i2c_init();     // init I2C interface
 	_delay_ms(200);  // Wait for 200 ms.
 	Init_MPU6050(MPU60501);    // sensor init
-	_delay_ms(200);     // Wait for 200 ms.
-	snprintf(outs,sizeof(outs),"6050 initialized \n\r");
-	USART_tx_string(outs);
+	_delay_ms(7000);     // Wait for 200 ms.
+	//snprintf(outs,sizeof(outs),"6050 initialized \n\r");
+	//USART_tx_string(outs);
 	for(int i = 0; i<10; i++)//get values for initial calibration
 	{
 			// read raw X acceleration from fifo
@@ -136,6 +141,9 @@ int main(){
 	yi1 = yi1/10;
 	zi1 = zi1/10;
 	
+	snprintf(outs, sizeof(outs),"AT+CIPMUX=1\r\n");
+	USART_tx_string(outs);
+	_delay_ms(5000);
 	//Start infinite loop
 	while(1){
 		//grab 3 values, average, subtract calibration value, and divide by MSB
@@ -149,28 +157,45 @@ int main(){
 		za1 = MPU6050_signed_readreg(MPU60501,0x3F)+MPU6050_signed_readreg(MPU60501,0x3F)+MPU6050_signed_readreg(MPU60501,0x3F);   
 		za1 = ((za1/3)-zi1)/2048.00;
 		
-
-
+		snprintf(outs, sizeof(outs),"AT+CIPSTART=4,\"TCP\",\"184.106.153.149\",80\r\n"); // open TCP conn
+		USART_tx_string(outs);
+		_delay_ms(5000);
 		
-		//convert doubles to printable strings
-		x0 = (int)xa1%10; // ones place
-		x1 = abs((int)(xa1 *10)%10); // tenths place
-		x2 = abs((int)(xa1 *100)%10); // hundredths place
+		snprintf(outs, sizeof(outs),"AT+CIPSEND=4,75\r\n");
+		USART_tx_string(outs);
+		_delay_ms(5000);
+		
+		x0 = (int)xa1%10; // get ones, tenths, and hundredths values
+		x1 = abs((int)(xa1 *10)%10);
+		x2 = abs((int)(xa1 *100)%10);
 		
 		y0 = (int)ya1%10;
 		y1 = abs((int)(ya1 *10)%10);
 		y2 = abs((int)(ya1 *100)%10);
 		
-		z0 = (int)za1%10;
+		z0 = (int)xa1%10;
 		z1 = abs((int)(za1 *10)%10);
 		z2 = abs((int)(za1 *100)%10);
 		
-		//print out the values		
-		snprintf(outs,sizeof(outs),"x: %i.%i%i, y: %i.%i%i, z: %i.%i%i\n\r",x0,x1,x2,y0,y1,y2,z0,z1,z2); // print all data on one line
-		USART_tx_string(outs); // tx
-		_delay_ms(500); // wait after each print
+		snprintf(outs, sizeof(outs),"GET /update?key=7PA0P9DMZOLYS1JR&field1=%i.%i%i&field2=%i.%i%i&field3=%i.%i%i\r\n", x0,x1,x2,y0,y1,y2,z0,z1,z2); // updated cloud
+		USART_tx_string(outs);
+		USART_tx_string(outs);
+		_delay_ms(5000);
+			
+		snprintf(outs, sizeof(outs),"AT+CIPCLOSE\r\n");
+		USART_tx_string(outs);
+		_delay_ms(5000);
+		
+		//convert doubles to printable strings
+		//print out the values
+		
+		
+		snprintf(outs,sizeof(outs),"x: %i.%i%i, y: %i.%i%i, z: %i.%i%i\n\r", x0,x1,x2,y0,y1,y2,z0,z1,z2);
+		//USART_tx_string(outs);
+		//_delay_ms(500);
+
 
 	} 
 	
 	return 0;
-} 
+}
